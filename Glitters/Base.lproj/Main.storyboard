@@ -84,13 +84,44 @@
                                     <constraint firstItem="JpI-Bi-avH" firstAttribute="centerX" secondItem="OMy-15-8Wh" secondAttribute="centerX" id="Qf5-wN-6eS"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="40" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="2VV-Ej-TjG">
+                                <rect key="frame" x="159" y="36" width="200" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2P-Rc-9mD">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <state key="normal" image="flash-off"/>
+                                        <connections>
+                                            <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HZm-1e-UUl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PM2-cE-4jn">
+                                        <rect key="frame" x="80" y="0.0" width="40" height="40"/>
+                                        <state key="normal" image="rotate"/>
+                                        <connections>
+                                            <action selector="switchCameras:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PyP-U1-1M5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1r-wc-AW1">
+                                        <rect key="frame" x="160" y="0.0" width="40" height="40"/>
+                                        <state key="normal" image="glitters"/>
+                                        <connections>
+                                            <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nua-0O-8YX"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.75402096110000005" green="0.75402096110000005" blue="0.75402096110000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="2VV-Ej-TjG" firstAttribute="top" secondItem="gKF-Pf-xpC" secondAttribute="top" constant="16" id="K2u-1C-zhQ"/>
+                            <constraint firstItem="gKF-Pf-xpC" firstAttribute="trailing" secondItem="2VV-Ej-TjG" secondAttribute="trailing" constant="16" id="kpd-N6-NZH"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="gKF-Pf-xpC"/>
                     </view>
                     <connections>
                         <outlet property="cameraRollButton" destination="Cy7-ir-bV7" id="6Ou-cu-XYc"/>
                         <outlet property="captureButton" destination="96s-Oz-0c1" id="idc-Xv-soe"/>
+                        <outlet property="flashButton" destination="J2P-Rc-9mD" id="RD1-T4-xFF"/>
                         <outlet property="managingView" destination="OMy-15-8Wh" id="tVm-UK-no5"/>
                         <outlet property="modeSwitcherButton" destination="PRy-mN-ATQ" id="rZe-4Y-JD3"/>
                         <outlet property="previewView" destination="8bC-Xf-vdC" id="Vyb-fP-c9l"/>
@@ -102,8 +133,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="flash-off" width="32" height="32"/>
+        <image name="glitters" width="32" height="32"/>
         <image name="photo-album-white" width="32" height="32"/>
         <image name="photo-camera-white" width="32" height="32"/>
+        <image name="rotate" width="32" height="32"/>
         <image name="video-camera-white" width="32" height="32"/>
     </resources>
 </document>

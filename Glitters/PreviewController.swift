@@ -17,6 +17,7 @@ class PreviewController: UIViewController {
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var modeSwitcherButton: UIButton!
+    @IBOutlet weak var flashButton: UIButton!
     
     override var prefersStatusBarHidden: Bool { return true }
     override var shouldAutorotate: Bool { return false }
@@ -29,6 +30,8 @@ class PreviewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         func configureCameraController() {
             cameraController.prepare { error in
@@ -69,7 +72,28 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func switchMode(_ sender: UIButton) {
+        
     }
     
+    @IBAction func toggleFlash(_ sender: UIButton) {
+        if cameraController.flashMode == .on {
+            cameraController.flashMode = .off
+            flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+        } else {
+            cameraController.flashMode = .on
+            flashButton.setImage(#imageLiteral(resourceName: "flash-on"), for: .normal)
+        }
+    }
+    
+    @IBAction func switchCameras(_ sender: UIButton) {
+        do {
+            try cameraController.switchCameras()
+        } catch {
+            print(error)
+        }
+    }
+    
+    @IBAction func applyGlittersEffect(_ sender: UIButton) {
+    }
     
 }
