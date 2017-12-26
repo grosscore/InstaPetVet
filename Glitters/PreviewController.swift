@@ -10,8 +10,13 @@ import UIKit
 import Photos
 
 class PreviewController: UIViewController {
+    
     @IBOutlet var previewView: UIView!
     @IBOutlet weak var managingView: UIView!
+    
+    @IBOutlet weak var captureButton: UIButton!
+    @IBOutlet weak var cameraRollButton: UIButton!
+    @IBOutlet weak var modeSwitcherButton: UIButton!
     
     override var prefersStatusBarHidden: Bool { return true }
     override var shouldAutorotate: Bool { return false }
@@ -54,5 +59,17 @@ class PreviewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    //================================
+    
+    @IBAction func capture(_ sender: UIButton) {
+    }
+    
+    @IBAction func openCameraRoll(_ sender: UIButton) {
+    }
+    
+    @IBAction func switchMode(_ sender: UIButton) {
+    }
+    
+    
 }

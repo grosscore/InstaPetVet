@@ -99,6 +99,9 @@ class CameraController: NSObject {
         self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         self.previewLayer?.videoGravity = .resizeAspect
         
+            
+        
+        
         let width: CGFloat = UIScreen.main.bounds.width
         let height: CGFloat = (UIScreen.main.bounds.height * 3/4)
         
