@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OMy-15-8Wh">
-                                <rect key="frame" x="0.0" y="539" width="375" height="128"/>
+                                <rect key="frame" x="0.0" y="499" width="375" height="168"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="JpI-Bi-avH">
                                         <rect key="frame" x="37" y="24" width="300" height="80"/>
@@ -125,14 +126,108 @@
                         <outlet property="managingView" destination="OMy-15-8Wh" id="tVm-UK-no5"/>
                         <outlet property="modeSwitcherButton" destination="PRy-mN-ATQ" id="rZe-4Y-JD3"/>
                         <outlet property="previewView" destination="8bC-Xf-vdC" id="Vyb-fP-c9l"/>
+                        <segue destination="fae-TW-bt2" kind="presentation" id="gPo-GX-nAK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="80.799999999999997" y="117.39130434782609"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="r3f-KY-F2M">
+            <objects>
+                <viewController id="fae-TW-bt2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jmH-Iy-xe5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4O4-iT-gxc">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="500.5"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heU-YG-Xcw">
+                                <rect key="frame" x="319" y="36" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="h7K-oT-FP2"/>
+                                    <constraint firstAttribute="width" constant="40" id="i5B-jc-uKm"/>
+                                </constraints>
+                                <state key="normal" image="glitters"/>
+                                <connections>
+                                    <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9LA-pf-fNh"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aUF-Cs-Y4H">
+                                <rect key="frame" x="0.0" y="500.5" width="375" height="166.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="abe-i3-5G2">
+                                        <rect key="frame" x="57" y="42.5" width="260" height="80"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-fm-Ui7">
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                <color key="backgroundColor" red="1" green="0.48286700380000003" blue="0.64072256930000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="80" id="mPn-4U-TZr"/>
+                                                    <constraint firstAttribute="width" constant="80" id="rSD-W9-kYT"/>
+                                                </constraints>
+                                                <state key="normal" image="glitters"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadiius">
+                                                        <integer key="value" value="40"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ud6-kR-ENC">
+                                                <rect key="frame" x="180" y="0.0" width="80" height="80"/>
+                                                <color key="backgroundColor" red="0.36490036135511961" green="0.64463502736801104" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <state key="normal" image="photo-album-white"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadiius">
+                                                        <integer key="value" value="40"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="abe-i3-5G2" firstAttribute="centerY" secondItem="aUF-Cs-Y4H" secondAttribute="centerY" id="hfw-Ac-PpC"/>
+                                    <constraint firstItem="abe-i3-5G2" firstAttribute="centerX" secondItem="aUF-Cs-Y4H" secondAttribute="centerX" id="sxB-Ky-pve"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ESf-2j-uKe">
+                                <rect key="frame" x="16" y="36" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="HRp-Bv-hYq"/>
+                                    <constraint firstAttribute="width" constant="40" id="dpY-tS-9FL"/>
+                                </constraints>
+                                <state key="normal" image="exit"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aUF-Cs-Y4H" firstAttribute="trailing" secondItem="x3p-Vg-api" secondAttribute="trailing" id="BIK-6B-zb7"/>
+                            <constraint firstItem="aUF-Cs-Y4H" firstAttribute="top" secondItem="4O4-iT-gxc" secondAttribute="bottom" id="Ba1-La-zJs"/>
+                            <constraint firstItem="x3p-Vg-api" firstAttribute="trailing" secondItem="heU-YG-Xcw" secondAttribute="trailing" constant="16" id="Bmo-Cd-cXc"/>
+                            <constraint firstItem="heU-YG-Xcw" firstAttribute="top" secondItem="x3p-Vg-api" secondAttribute="top" constant="16" id="Hfi-HT-BRt"/>
+                            <constraint firstItem="ESf-2j-uKe" firstAttribute="top" secondItem="x3p-Vg-api" secondAttribute="top" constant="16" id="S8A-BV-ZGm"/>
+                            <constraint firstItem="4O4-iT-gxc" firstAttribute="leading" secondItem="x3p-Vg-api" secondAttribute="leading" id="VUZ-x5-B4c"/>
+                            <constraint firstItem="4O4-iT-gxc" firstAttribute="trailing" secondItem="x3p-Vg-api" secondAttribute="trailing" id="YFH-oP-PyU"/>
+                            <constraint firstItem="4O4-iT-gxc" firstAttribute="top" secondItem="jmH-Iy-xe5" secondAttribute="top" id="bdv-PL-rpH"/>
+                            <constraint firstItem="aUF-Cs-Y4H" firstAttribute="leading" secondItem="x3p-Vg-api" secondAttribute="leading" id="eud-dT-qMv"/>
+                            <constraint firstItem="ESf-2j-uKe" firstAttribute="leading" secondItem="x3p-Vg-api" secondAttribute="leading" constant="16" id="jGS-JK-QHk"/>
+                            <constraint firstItem="aUF-Cs-Y4H" firstAttribute="bottom" secondItem="x3p-Vg-api" secondAttribute="bottom" id="m5g-sK-rku"/>
+                            <constraint firstItem="4O4-iT-gxc" firstAttribute="bottom" secondItem="x3p-Vg-api" secondAttribute="bottom" multiplier="3:4" id="oDj-6H-1ng"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="x3p-Vg-api"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fqd-wJ-Enp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="880.79999999999995" y="116.49175412293854"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="exit" width="32" height="32"/>
         <image name="flash-off" width="32" height="32"/>
         <image name="glitters" width="32" height="32"/>
         <image name="photo-album-white" width="32" height="32"/>

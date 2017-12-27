@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class CameraController: NSObject {
+class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
     
     var captureSession: AVCaptureSession?
     var frontCamera: AVCaptureDevice?
@@ -21,6 +21,8 @@ class CameraController: NSObject {
     var previewLayer: AVCaptureVideoPreviewLayer?
     
     var flashMode = AVCaptureDevice.FlashMode.off
+    
+    var photoCaptureCompletionBlock: ((UIImage?, Error?) -> Void)?
     
     func prepare(completionHandler: @escaping (Error?) -> Void) {
         func createCaptureSession() {
@@ -94,25 +96,41 @@ class CameraController: NSObject {
         }
     }
     
-    // ==================== MARK: - CONFIGURE DISPLAY PREVIEW ==============================
+    // ==================== MARK: - CONFIGURE DISPLAY PREVIEW ===============================
     
     func displayPreview(on view: UIView) throws {
         guard let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
         self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         self.previewLayer?.videoGravity = .resizeAspect
         
-            
-        
-        
         let width: CGFloat = UIScreen.main.bounds.width
         let height: CGFloat = (UIScreen.main.bounds.height * 3/4)
         
         self.previewLayer?.frame = CGRect(x: 0, y: 0, width: width, height: height)
         view.layer.insertSublayer(previewLayer!, at: 0)
-        
     }
     
-    // ===================== MARK: - ADDITIONAL METHODS =====================================
+    // ==================== MARK: - CAPTURING PHOTO AND VIDEO ==============================
+    
+    func captureImage(completion: @escaping (UIImage?, Error?) -> Void) {
+        guard let captureSession = captureSession, captureSession.isRunning else { completion(nil, CameraControllerError.captureSessionIsMissing); return }
+        let settings = AVCapturePhotoSettings()
+        settings.flashMode = self.flashMode
+        self.photoOutput?.capturePhoto(with: settings, delegate: self)
+        self.photoCaptureCompletionBlock = completion
+    }
+    
+    // implementing AVCapturePhotoCaptureDelegate methods:
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
+        else if let data = photo.fileDataRepresentation() {
+            let image = UIImage(data: data)
+            self.photoCaptureCompletionBlock?(image, nil)
+        } else { self.photoCaptureCompletionBlock?(nil, CameraControllerError.unknown) }
+    }
+    
+    
+    // ==================== MARK: - ADDITIONAL METHODS =====================================
     
     func switchCameras() throws {
         guard let currentCameraPosition = currentCameraPosition, let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
@@ -151,11 +169,10 @@ class CameraController: NSObject {
         
         captureSession.commitConfiguration()
     }
-    
-    
-    
-    
 }
+
+
+// ======================== MARK: - EXTENSION ============================================
 
 extension CameraController {
     

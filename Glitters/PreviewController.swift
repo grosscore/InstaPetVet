@@ -24,14 +24,14 @@ class PreviewController: UIViewController {
     
     let cameraController = CameraController()
     
+    var captureMode: CaptureMode { return .photo }
+    
     override func viewDidLayoutSubviews() {
         constrainManagingView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         func configureCameraController() {
             cameraController.prepare { error in
@@ -43,10 +43,8 @@ class PreviewController: UIViewController {
         }
         configureCameraController()
         managingView.backgroundColor = UIColor.white
-        
     }
 
-    
     func constrainManagingView() {
         let safeArea = self.view.safeAreaLayoutGuide
         let height = UIScreen.main.bounds.size.height - (UIScreen.main.bounds.height * 3/4)
@@ -66,6 +64,17 @@ class PreviewController: UIViewController {
     //================================
     
     @IBAction func capture(_ sender: UIButton) {
+        if captureMode == .photo {
+            cameraController.captureImage {(image, error) in
+                guard let image = image else {
+                    print(error ?? "Image capture error")
+                    return
+                }
+                try? PHPhotoLibrary.shared().performChangesAndWait {
+                    PHAssetChangeRequest.creationRequestForAsset(from: image)
+                }
+            }
+        }
     }
     
     @IBAction func openCameraRoll(_ sender: UIButton) {
@@ -96,4 +105,11 @@ class PreviewController: UIViewController {
     @IBAction func applyGlittersEffect(_ sender: UIButton) {
     }
     
+}
+
+extension PreviewController {
+    enum CaptureMode {
+        case photo
+        case video
+    }
 }
