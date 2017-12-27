@@ -23,6 +23,7 @@ class PreviewController: UIViewController {
     override var shouldAutorotate: Bool { return false }
     
     let cameraController = CameraController()
+    var photo: UIImage?
     
     var captureMode: CaptureMode { return .photo }
     
@@ -54,12 +55,16 @@ class PreviewController: UIViewController {
         managingView.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
-    /*
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "presentPhotoEditingViewController" {
+            let destination = segue.destination as! PhotoEditingViewController
+            if self.photo != nil {
+                destination.image = photo
+            }
+        }
     }
-    */
+
     
     //================================
     
@@ -70,9 +75,8 @@ class PreviewController: UIViewController {
                     print(error ?? "Image capture error")
                     return
                 }
-                try? PHPhotoLibrary.shared().performChangesAndWait {
-                    PHAssetChangeRequest.creationRequestForAsset(from: image)
-                }
+                self.photo = image
+                self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: sender)
             }
         }
     }
@@ -104,6 +108,8 @@ class PreviewController: UIViewController {
     
     @IBAction func applyGlittersEffect(_ sender: UIButton) {
     }
+    
+    
     
 }
 

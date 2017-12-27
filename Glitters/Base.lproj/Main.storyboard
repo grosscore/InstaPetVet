@@ -23,7 +23,7 @@
                                 <rect key="frame" x="0.0" y="499" width="375" height="168"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="JpI-Bi-avH">
-                                        <rect key="frame" x="37" y="24" width="300" height="80"/>
+                                        <rect key="frame" x="37" y="44" width="300" height="80"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cy7-ir-bV7">
                                                 <rect key="frame" x="0.0" y="10" width="60" height="60"/>
@@ -126,22 +126,22 @@
                         <outlet property="managingView" destination="OMy-15-8Wh" id="tVm-UK-no5"/>
                         <outlet property="modeSwitcherButton" destination="PRy-mN-ATQ" id="rZe-4Y-JD3"/>
                         <outlet property="previewView" destination="8bC-Xf-vdC" id="Vyb-fP-c9l"/>
-                        <segue destination="fae-TW-bt2" kind="presentation" id="gPo-GX-nAK"/>
+                        <segue destination="fae-TW-bt2" kind="presentation" identifier="presentPhotoEditingViewController" modalTransitionStyle="crossDissolve" id="gPo-GX-nAK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="80.799999999999997" y="117.39130434782609"/>
         </scene>
-        <!--View Controller-->
+        <!--Photo Editing View Controller-->
         <scene sceneID="r3f-KY-F2M">
             <objects>
-                <viewController id="fae-TW-bt2" sceneMemberID="viewController">
+                <viewController id="fae-TW-bt2" customClass="PhotoEditingViewController" customModule="Glitters" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jmH-Iy-xe5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4O4-iT-gxc">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4O4-iT-gxc">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="500.5"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heU-YG-Xcw">
@@ -152,6 +152,7 @@
                                 </constraints>
                                 <state key="normal" image="glitters"/>
                                 <connections>
+                                    <action selector="applyGlitteringEffect:" destination="fae-TW-bt2" eventType="touchUpInside" id="91d-5C-wK8"/>
                                     <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9LA-pf-fNh"/>
                                 </connections>
                             </button>
@@ -170,7 +171,7 @@
                                                 </constraints>
                                                 <state key="normal" image="glitters"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadiius">
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                         <integer key="value" value="40"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
@@ -178,12 +179,16 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ud6-kR-ENC">
                                                 <rect key="frame" x="180" y="0.0" width="80" height="80"/>
                                                 <color key="backgroundColor" red="0.36490036135511961" green="0.64463502736801104" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
                                                 <state key="normal" image="photo-album-white"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadiius">
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                         <integer key="value" value="40"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="savePhotoToCameraRoll:" destination="fae-TW-bt2" eventType="touchUpInside" id="rt2-iT-VSj"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -200,7 +205,10 @@
                                     <constraint firstAttribute="height" constant="40" id="HRp-Bv-hYq"/>
                                     <constraint firstAttribute="width" constant="40" id="dpY-tS-9FL"/>
                                 </constraints>
-                                <state key="normal" image="exit"/>
+                                <state key="normal" image="cancel"/>
+                                <connections>
+                                    <action selector="closeWithSegue:" destination="fae-TW-bt2" eventType="touchUpInside" id="Ddq-jO-R3G"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -220,6 +228,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x3p-Vg-api"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="4O4-iT-gxc" id="hgF-Ej-xSj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fqd-wJ-Enp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -227,7 +238,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="exit" width="32" height="32"/>
+        <image name="cancel" width="32" height="32"/>
         <image name="flash-off" width="32" height="32"/>
         <image name="glitters" width="32" height="32"/>
         <image name="photo-album-white" width="32" height="32"/>
