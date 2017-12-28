@@ -34,8 +34,4 @@ class PhotoEditingViewController: UIViewController {
     
     @IBAction func applyGlitteringEffect(_ sender: UIButton) {
     }
-    
-    @IBAction func close(segue:UIStoryboardSegue) {
-        self.dismiss(animated: true, completion: nil)
-    }
 }

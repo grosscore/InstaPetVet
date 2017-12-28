@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class PreviewController: UIViewController {
+class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var previewView: UIView!
     @IBOutlet weak var managingView: UIView!
@@ -44,6 +44,7 @@ class PreviewController: UIViewController {
         }
         configureCameraController()
         managingView.backgroundColor = UIColor.white
+        
     }
 
     func constrainManagingView() {
@@ -81,8 +82,23 @@ class PreviewController: UIViewController {
         }
     }
     
+    // ImagePickerController methods
     @IBAction func openCameraRoll(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        self.photo = info[UIImagePickerControllerOriginalImage] as? UIImage
+        dismiss(animated: true, completion: nil)
+        self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: nil)
+    }
+
+    //===========================
     
     @IBAction func switchMode(_ sender: UIButton) {
         
@@ -110,7 +126,9 @@ class PreviewController: UIViewController {
     }
     
     
-    
+    @IBAction func close(segue:UIStoryboardSegue) {
+        
+    }
 }
 
 extension PreviewController {

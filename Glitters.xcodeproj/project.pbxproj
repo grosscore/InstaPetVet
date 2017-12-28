@@ -58,10 +58,10 @@
 		34A15CDA1FEFB8F0004A58E9 /* Glitters */ = {
 			isa = PBXGroup;
 			children = (
-				34A15CDB1FEFB8F0004A58E9 /* AppDelegate.swift */,
 				34A15CDF1FEFB8F0004A58E9 /* Main.storyboard */,
-				34A15CED1FEFF9C2004A58E9 /* PreviewController.swift */,
+				34A15CDB1FEFB8F0004A58E9 /* AppDelegate.swift */,
 				34A15CEF1FEFF9FF004A58E9 /* CameraController.swift */,
+				34A15CED1FEFF9C2004A58E9 /* PreviewController.swift */,
 				34E747E01FF427CC00DF1D4C /* PhotoEditingViewController.swift */,
 				34730D101FF4469D0045E89B /* Assets.xcassets */,
 				34A15CE41FEFB8F0004A58E9 /* LaunchScreen.storyboard */,
