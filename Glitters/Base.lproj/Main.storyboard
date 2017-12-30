@@ -22,20 +22,19 @@
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OMy-15-8Wh">
                                 <rect key="frame" x="0.0" y="499" width="375" height="168"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="JpI-Bi-avH">
-                                        <rect key="frame" x="37" y="44" width="300" height="80"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" alignment="center" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="JpI-Bi-avH">
+                                        <rect key="frame" x="37" y="44" width="290" height="80"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cy7-ir-bV7">
-                                                <rect key="frame" x="0.0" y="10" width="60" height="60"/>
+                                                <rect key="frame" x="0.0" y="7.5" width="65" height="65"/>
                                                 <color key="backgroundColor" white="0.80113962155963303" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="q4u-tu-GgO"/>
-                                                    <constraint firstAttribute="width" constant="60" id="xn2-6o-2uS"/>
+                                                    <constraint firstAttribute="height" constant="65" id="q4u-tu-GgO"/>
+                                                    <constraint firstAttribute="width" constant="65" id="xn2-6o-2uS"/>
                                                 </constraints>
-                                                <state key="normal" image="photo-album-white"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="30"/>
+                                                        <real key="value" value="32.5"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
@@ -43,7 +42,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96s-Oz-0c1">
-                                                <rect key="frame" x="110" y="0.0" width="80" height="80"/>
+                                                <rect key="frame" x="105" y="0.0" width="80" height="80"/>
                                                 <color key="backgroundColor" red="1" green="0.48286700383796988" blue="0.64072256930272542" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="80" id="a7l-OJ-Q3K"/>
@@ -60,16 +59,16 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PRy-mN-ATQ">
-                                                <rect key="frame" x="240" y="10" width="60" height="60"/>
+                                                <rect key="frame" x="225" y="7.5" width="65" height="65"/>
                                                 <color key="backgroundColor" white="0.80113962155963303" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="60" id="Ea4-d1-DjU"/>
-                                                    <constraint firstAttribute="height" constant="60" id="w2i-DG-DrB"/>
+                                                    <constraint firstAttribute="width" constant="65" id="Ea4-d1-DjU"/>
+                                                    <constraint firstAttribute="height" constant="65" id="w2i-DG-DrB"/>
                                                 </constraints>
                                                 <state key="normal" image="video-camera-white"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="30"/>
+                                                        <real key="value" value="32.5"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
@@ -143,6 +142,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4O4-iT-gxc">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="500.5"/>
+                                <color key="backgroundColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heU-YG-Xcw">
                                 <rect key="frame" x="319" y="36" width="40" height="40"/>
@@ -193,7 +193,7 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.79773773006134974" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="abe-i3-5G2" firstAttribute="centerY" secondItem="aUF-Cs-Y4H" secondAttribute="centerY" id="hfw-Ac-PpC"/>
                                     <constraint firstItem="abe-i3-5G2" firstAttribute="centerX" secondItem="aUF-Cs-Y4H" secondAttribute="centerX" id="sxB-Ky-pve"/>

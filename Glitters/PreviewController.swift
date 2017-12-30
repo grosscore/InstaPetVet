@@ -10,7 +10,7 @@ import UIKit
 import Photos
 
 class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+
     @IBOutlet var previewView: UIView!
     @IBOutlet weak var managingView: UIView!
     
@@ -19,13 +19,15 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     @IBOutlet weak var modeSwitcherButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     
-    override var prefersStatusBarHidden: Bool { return true }
     override var shouldAutorotate: Bool { return false }
+    override var prefersStatusBarHidden: Bool { return true }
+    
     
     let cameraController = CameraController()
     var photo: UIImage?
     
     var captureMode: CaptureMode { return .photo }
+    
     
     override func viewDidLayoutSubviews() {
         constrainManagingView()
@@ -45,6 +47,8 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         configureCameraController()
         managingView.backgroundColor = UIColor.white
         
+        setCameraRollButtonImage()
+        PHPhotoLibrary.shared().register(self)
     }
 
     func constrainManagingView() {
@@ -70,6 +74,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     //================================
     
     @IBAction func capture(_ sender: UIButton) {
+        self.captureButton.isEnabled = false
         if captureMode == .photo {
             cameraController.captureImage {(image, error) in
                 guard let image = image else {
@@ -78,6 +83,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
                 }
                 self.photo = image
                 self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: sender)
+                self.captureButton.isEnabled = true
             }
         }
     }
@@ -96,6 +102,22 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         self.photo = info[UIImagePickerControllerOriginalImage] as? UIImage
         dismiss(animated: true, completion: nil)
         self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: nil)
+    }
+    
+    func setCameraRollButtonImage() {
+        let imageManager = PHImageManager.default()
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = 1
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)   //FIXME: - In case Adding Video
+        if fetchResult.firstObject != nil {
+            imageManager.requestImage(for: fetchResult.firstObject!, targetSize: cameraRollButton.frame.size, contentMode: .aspectFill, options: requestOptions, resultHandler: {(result, _) in
+                self.cameraRollButton.setImage(result, for: .normal)
+                self.cameraRollButton.imageView!.layer.cornerRadius = self.cameraRollButton.frame.size.width / 2
+            })
+        }
     }
 
     //===========================
@@ -125,15 +147,20 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     @IBAction func applyGlittersEffect(_ sender: UIButton) {
     }
     
-    
-    @IBAction func close(segue:UIStoryboardSegue) {
-        
-    }
 }
 
-extension PreviewController {
+extension PreviewController: PHPhotoLibraryChangeObserver {
     enum CaptureMode {
         case photo
         case video
+    }
+    
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        DispatchQueue.main.sync {
+            self.setCameraRollButtonImage()
+        }
+    }
+    
+    @IBAction func close(segue:UIStoryboardSegue) {
     }
 }
