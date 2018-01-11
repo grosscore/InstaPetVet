@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/gross/Documents/Glitters/Glitters/Assets.xcassets">
-   </FileRef>
-   <FileRef
-      location = "group:../Glitters/Assets.xcassets">
-   </FileRef>
-   <FileRef
       location = "self:">
    </FileRef>
 </Workspace>

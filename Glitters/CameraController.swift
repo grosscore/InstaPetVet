@@ -8,8 +8,9 @@
 
 import UIKit
 import AVFoundation
+import CoreMotion
 
-class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
+class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     var captureSession: AVCaptureSession?
     var frontCamera: AVCaptureDevice?
@@ -18,10 +19,10 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
     var frontCameraInput: AVCaptureDeviceInput?
     var rearCameraInput: AVCaptureDeviceInput?
     var photoOutput: AVCapturePhotoOutput?
+    var videoOutput: AVCaptureVideoDataOutput?
     var previewLayer: AVCaptureVideoPreviewLayer?
     
     var flashMode = AVCaptureDevice.FlashMode.off
-    
     var photoCaptureCompletionBlock: ((UIImage?, Error?) -> Void)?
     
     func prepare(completionHandler: @escaping (Error?) -> Void) {
@@ -66,24 +67,12 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
             } else { throw CameraControllerError.noCamerasAvailable }
         }
         
-        
-        func configurePhotoOutput() throws {
-            guard let captureSession = self.captureSession else { throw CameraControllerError.captureSessionIsMissing }
-            self.photoOutput = AVCapturePhotoOutput()
-            self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [ AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
-            if captureSession.canAddOutput(self.photoOutput!) {
-                captureSession.addOutput(self.photoOutput!)
-            }
-            captureSession.sessionPreset = .photo
-            captureSession.startRunning()
-        }
-        
         DispatchQueue(label: "prepare").async {
             do {
                 createCaptureSession()
                 try configureCaptureDevices()
                 try configureDeviceInputs()
-                try configurePhotoOutput()
+                try self.configurePhotoOutput()
             } catch {
                 DispatchQueue.main.async {
                     completionHandler(error)
@@ -94,6 +83,39 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
                 completionHandler(nil)
             }
         }
+        
+    }
+    
+    // ==================== MARK: - CONFIGURE PHOTO & VIDEO CAPTURE OUTPUTS =================
+    
+    func configurePhotoOutput() throws {
+        guard let captureSession = self.captureSession else { throw CameraControllerError.captureSessionIsMissing }
+        self.photoOutput = AVCapturePhotoOutput()
+        self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [ AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+        if captureSession.canAddOutput(self.photoOutput!) {
+            if self.videoOutput != nil {
+                captureSession.removeOutput(videoOutput!)
+                self.videoOutput = nil
+            }
+            captureSession.addOutput(self.photoOutput!)
+        }
+        captureSession.sessionPreset = .photo
+        captureSession.startRunning()
+    }
+    
+    func configureVideoOutput() throws {
+        guard let captureSession = self.captureSession else { throw CameraControllerError.captureSessionIsMissing }
+        self.videoOutput = AVCaptureVideoDataOutput()
+        self.videoOutput?.alwaysDiscardsLateVideoFrames = true
+        if captureSession.canAddOutput(self.videoOutput!) {
+            if self.photoOutput != nil {
+                captureSession.removeOutput(photoOutput!)
+                self.photoOutput = nil
+            }
+            captureSession.addOutput(self.videoOutput!)
+        }
+        captureSession.sessionPreset = .high
+        captureSession.startRunning()
     }
     
     // ==================== MARK: - CONFIGURE DISPLAY PREVIEW ===============================
@@ -108,6 +130,34 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
         
         self.previewLayer?.frame = CGRect(x: 0, y: 0, width: width, height: height)
         view.layer.insertSublayer(previewLayer!, at: 0)
+        
+    }
+    
+    // ==================== MARK: - CONFIGURE FOCUS MODE ===================================
+    
+    func focus(with focusMode: AVCaptureDevice.FocusMode, exposureMode: AVCaptureDevice.ExposureMode, at devicePoint: CGPoint, monitorSubjectAreaChange: Bool) {
+        var device: AVCaptureDevice!
+        if self.currentCameraPosition == .rear {
+            device = self.rearCamera
+        }
+        if self.currentCameraPosition == .front {
+            device = self.frontCamera
+        }
+        do {
+            try device.lockForConfiguration()
+            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
+                device.focusPointOfInterest = devicePoint
+                device.focusMode = focusMode
+            }
+            if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
+                device.exposureMode = exposureMode
+                device.exposurePointOfInterest = devicePoint
+            }
+            device.isSubjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange
+            device.unlockForConfiguration()
+        } catch {
+            print(error)
+        }
     }
     
     // ==================== MARK: - CAPTURING PHOTO AND VIDEO ==============================
@@ -169,6 +219,7 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate {
         
         captureSession.commitConfiguration()
     }
+    
 }
 
 

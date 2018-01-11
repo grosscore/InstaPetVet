@@ -22,15 +22,15 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     override var shouldAutorotate: Bool { return false }
     override var prefersStatusBarHidden: Bool { return true }
     
-    
     let cameraController = CameraController()
     var photo: UIImage?
     
-    var captureMode: CaptureMode { return .photo }
-    
+    var captureMode: CaptureMode?
     
     override func viewDidLayoutSubviews() {
         constrainManagingView()
+        self.modeSwitcherButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        self.cameraRollButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     }
     
     override func viewDidLoad() {
@@ -45,10 +45,11 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
             }
         }
         configureCameraController()
-        managingView.backgroundColor = UIColor.white
         
         setCameraRollButtonImage()
         PHPhotoLibrary.shared().register(self)
+        
+        self.captureMode = .photo
     }
 
     func constrainManagingView() {
@@ -60,7 +61,6 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         managingView.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "presentPhotoEditingViewController" {
             let destination = segue.destination as! PhotoEditingViewController
@@ -75,7 +75,12 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     
     @IBAction func capture(_ sender: UIButton) {
         self.captureButton.isEnabled = false
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        let deviceOrientation = UIDevice.current.orientation.rawValue
         if captureMode == .photo {
+            if let photoOutputConnection = cameraController.photoOutput?.connection(with: AVMediaType.video) {
+                photoOutputConnection.videoOrientation = AVCaptureVideoOrientation(rawValue: deviceOrientation)!
+            }
             cameraController.captureImage {(image, error) in
                 guard let image = image else {
                     print(error ?? "Image capture error")
@@ -84,16 +89,17 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
                 self.photo = image
                 self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: sender)
                 self.captureButton.isEnabled = true
+                UIDevice.current.endGeneratingDeviceOrientationNotifications()
             }
         }
     }
     
     // ImagePickerController methods
     @IBAction func openCameraRoll(_ sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             let imagePicker = UIImagePickerController()
             imagePicker.allowsEditing = false
-            imagePicker.sourceType = .photoLibrary
+            imagePicker.sourceType = .savedPhotosAlbum
             imagePicker.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
         }
@@ -113,17 +119,23 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)   //FIXME: - In case Adding Video
         if fetchResult.firstObject != nil {
-            imageManager.requestImage(for: fetchResult.firstObject!, targetSize: cameraRollButton.frame.size, contentMode: .aspectFill, options: requestOptions, resultHandler: {(result, _) in
+            imageManager.requestImage(for: fetchResult.firstObject!, targetSize: cameraRollButton.bounds.size, contentMode: .aspectFill, options: requestOptions, resultHandler: {(result, _) in
                 self.cameraRollButton.setImage(result, for: .normal)
-                self.cameraRollButton.imageView!.layer.cornerRadius = self.cameraRollButton.frame.size.width / 2
+                self.cameraRollButton.imageView!.layer.cornerRadius = self.cameraRollButton.bounds.size.width / 2
             })
         }
     }
 
     //===========================
     
+    @IBAction func tapToFocus(_ sender: UITapGestureRecognizer) {
+        let devicePoint = cameraController.previewLayer?.captureDevicePointConverted(fromLayerPoint: sender.location(in: sender.view))
+        cameraController.focus(with: .autoFocus, exposureMode: .autoExpose, at: devicePoint!, monitorSubjectAreaChange: true)
+    }
+    
     @IBAction func switchMode(_ sender: UIButton) {
-        
+        do { try self.cameraController.configureVideoOutput() } catch { print("error configuring Video Output") }
+
     }
     
     @IBAction func toggleFlash(_ sender: UIButton) {
