@@ -91,7 +91,11 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     func configurePhotoOutput() throws {
         guard let captureSession = self.captureSession else { throw CameraControllerError.captureSessionIsMissing }
         self.photoOutput = AVCapturePhotoOutput()
-        self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [ AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+        if self.photoOutput!.availablePhotoCodecTypes.contains(.hevc) {
+            self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.hevc])], completionHandler: nil)
+        } else {
+            self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [ AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
+        }
         if captureSession.canAddOutput(self.photoOutput!) {
             if self.videoOutput != nil {
                 captureSession.removeOutput(videoOutput!)
@@ -122,13 +126,18 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     
     func displayPreview(on view: UIView) throws {
         guard let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
+        var height: CGFloat?
         self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         self.previewLayer?.videoGravity = .resizeAspect
         
         let width: CGFloat = UIScreen.main.bounds.width
-        let height: CGFloat = (UIScreen.main.bounds.height * 3/4)
-        
-        self.previewLayer?.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        if captureSession.sessionPreset == .photo {
+            height = (UIScreen.main.bounds.height * 3/4)
+        }
+        if captureSession.sessionPreset == .high {
+            height = view.bounds.size.height
+        }
+        self.previewLayer?.frame = CGRect(x: 0, y: 0, width: width, height: height!)
         view.layer.insertSublayer(previewLayer!, at: 0)
         
     }

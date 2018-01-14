@@ -18,6 +18,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var modeSwitcherButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
+    @IBOutlet weak var livePhotoButton: UIButton!
     
     override var shouldAutorotate: Bool { return false }
     override var prefersStatusBarHidden: Bool { return true }
@@ -134,8 +135,9 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
     
     @IBAction func switchMode(_ sender: UIButton) {
-        do { try self.cameraController.configureVideoOutput() } catch { print("error configuring Video Output") }
-
+        do {
+            try self.cameraController.configureVideoOutput()
+        } catch { print("error configuring Video Output")}
     }
     
     @IBAction func toggleFlash(_ sender: UIButton) {
@@ -154,6 +156,8 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         } catch {
             print(error)
         }
+    }
+    @IBAction func livePhoto(_ sender: UIButton) {
     }
     
     @IBAction func applyGlittersEffect(_ sender: UIButton) {

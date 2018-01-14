@@ -8,6 +8,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -85,25 +86,48 @@
                                     <constraint firstItem="JpI-Bi-avH" firstAttribute="centerX" secondItem="OMy-15-8Wh" secondAttribute="centerX" id="Qf5-wN-6eS"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="40" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="2VV-Ej-TjG">
-                                <rect key="frame" x="159" y="36" width="200" height="40"/>
+                            <stackView opaque="NO" contentMode="scaleAspectFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="40" distribution="equalSpacing" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2VV-Ej-TjG">
+                                <rect key="frame" x="16" y="36" width="343" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2P-Rc-9mD">
                                         <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="B0L-H2-q7E"/>
+                                            <constraint firstAttribute="width" constant="40" id="kfb-Lc-krn"/>
+                                        </constraints>
                                         <state key="normal" image="flash-off"/>
                                         <connections>
                                             <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HZm-1e-UUl"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WhG-Gt-kJq">
+                                        <rect key="frame" x="101" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="4Rs-8M-hni"/>
+                                            <constraint firstAttribute="width" constant="40" id="EHX-Dk-2cw"/>
+                                        </constraints>
+                                        <state key="normal" image="livephoto-white"/>
+                                        <connections>
+                                            <action selector="livePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T5q-oY-tph"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PM2-cE-4jn">
-                                        <rect key="frame" x="80" y="0.0" width="40" height="40"/>
+                                        <rect key="frame" x="202" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="IDD-wd-PGQ"/>
+                                            <constraint firstAttribute="width" constant="40" id="OqE-tA-Rzw"/>
+                                        </constraints>
                                         <state key="normal" image="rotate"/>
                                         <connections>
                                             <action selector="switchCameras:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PyP-U1-1M5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1r-wc-AW1">
-                                        <rect key="frame" x="160" y="0.0" width="40" height="40"/>
+                                        <rect key="frame" x="303" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="3sy-8b-XOX"/>
+                                            <constraint firstAttribute="height" constant="40" id="JZV-Dl-WKY"/>
+                                        </constraints>
                                         <state key="normal" image="glitters"/>
                                         <connections>
                                             <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nua-0O-8YX"/>
@@ -116,6 +140,7 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="2VV-Ej-TjG" firstAttribute="top" secondItem="gKF-Pf-xpC" secondAttribute="top" constant="16" id="K2u-1C-zhQ"/>
+                            <constraint firstItem="2VV-Ej-TjG" firstAttribute="leading" secondItem="gKF-Pf-xpC" secondAttribute="leading" constant="16" id="fo9-Nt-bai"/>
                             <constraint firstItem="gKF-Pf-xpC" firstAttribute="trailing" secondItem="2VV-Ej-TjG" secondAttribute="trailing" constant="16" id="kpd-N6-NZH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gKF-Pf-xpC"/>
@@ -127,6 +152,7 @@
                         <outlet property="cameraRollButton" destination="Cy7-ir-bV7" id="6Ou-cu-XYc"/>
                         <outlet property="captureButton" destination="96s-Oz-0c1" id="idc-Xv-soe"/>
                         <outlet property="flashButton" destination="J2P-Rc-9mD" id="RD1-T4-xFF"/>
+                        <outlet property="livePhotoButton" destination="WhG-Gt-kJq" id="41A-XX-k5i"/>
                         <outlet property="managingView" destination="OMy-15-8Wh" id="tVm-UK-no5"/>
                         <outlet property="modeSwitcherButton" destination="PRy-mN-ATQ" id="rZe-4Y-JD3"/>
                         <outlet property="previewView" destination="8bC-Xf-vdC" id="Vyb-fP-c9l"/>
@@ -170,7 +196,7 @@
                                 <rect key="frame" x="0.0" y="500.5" width="375" height="166.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="abe-i3-5G2">
-                                        <rect key="frame" x="57" y="42.5" width="260" height="80"/>
+                                        <rect key="frame" x="57.5" y="42.5" width="260" height="80"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8q-fm-Ui7">
                                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -252,6 +278,7 @@
         <image name="cancel" width="32" height="32"/>
         <image name="flash-off" width="32" height="32"/>
         <image name="glitters" width="32" height="32"/>
+        <image name="livephoto-white" width="32" height="32"/>
         <image name="photo-album-white" width="32" height="32"/>
         <image name="photo-camera-white" width="32" height="32"/>
         <image name="rotate" width="32" height="32"/>
