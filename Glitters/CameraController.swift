@@ -23,7 +23,9 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     var previewLayer: AVCaptureVideoPreviewLayer?
     
     var flashMode = AVCaptureDevice.FlashMode.off
-    var photoCaptureCompletionBlock: ((UIImage?, Error?) -> Void)?
+    var photoCaptureCompletionBlock: ((Data?, Error?) -> Void)?
+    
+    var livePhotoMode: LivePhotoMode = .off
     
     func prepare(completionHandler: @escaping (Error?) -> Void) {
         func createCaptureSession() {
@@ -93,8 +95,6 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
         self.photoOutput = AVCapturePhotoOutput()
         if self.photoOutput!.availablePhotoCodecTypes.contains(.hevc) {
             self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.hevc])], completionHandler: nil)
-        } else {
-            self.photoOutput!.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [ AVVideoCodecKey : AVVideoCodecType.jpeg])], completionHandler: nil)
         }
         if captureSession.canAddOutput(self.photoOutput!) {
             if self.videoOutput != nil {
@@ -109,6 +109,7 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     
     func configureVideoOutput() throws {
         guard let captureSession = self.captureSession else { throw CameraControllerError.captureSessionIsMissing }
+        captureSession.beginConfiguration()
         self.videoOutput = AVCaptureVideoDataOutput()
         self.videoOutput?.alwaysDiscardsLateVideoFrames = true
         if captureSession.canAddOutput(self.videoOutput!) {
@@ -119,7 +120,7 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
             captureSession.addOutput(self.videoOutput!)
         }
         captureSession.sessionPreset = .high
-        captureSession.startRunning()
+        captureSession.commitConfiguration()
     }
     
     // ==================== MARK: - CONFIGURE DISPLAY PREVIEW ===============================
@@ -171,10 +172,16 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     
     // ==================== MARK: - CAPTURING PHOTO AND VIDEO ==============================
     
-    func captureImage(completion: @escaping (UIImage?, Error?) -> Void) {
+    func captureImage(completion: @escaping (Data?, Error?) -> Void) {
         guard let captureSession = captureSession, captureSession.isRunning else { completion(nil, CameraControllerError.captureSessionIsMissing); return }
         let settings = AVCapturePhotoSettings()
         settings.flashMode = self.flashMode
+        if self.livePhotoMode == .on && self.photoOutput!.isLivePhotoCaptureSupported {          //Enabling & configuring LivePhoto Mode
+            self.photoOutput!.isLivePhotoCaptureEnabled = true
+            let livePhotoMovieFileName = NSUUID().uuidString
+            let livePhotoMovieFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((livePhotoMovieFileName as NSString).appendingPathExtension("mov")!)
+            settings.livePhotoMovieFileURL = URL(fileURLWithPath: livePhotoMovieFilePath)
+        }
         self.photoOutput?.capturePhoto(with: settings, delegate: self)
         self.photoCaptureCompletionBlock = completion
     }
@@ -182,10 +189,19 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     // implementing AVCapturePhotoCaptureDelegate methods:
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
-        else if let data = photo.fileDataRepresentation() {
-            let image = UIImage(data: data)
-            self.photoCaptureCompletionBlock?(image, nil)
-        } else { self.photoCaptureCompletionBlock?(nil, CameraControllerError.unknown) }
+        else
+            if let data = photo.fileDataRepresentation() { self.photoCaptureCompletionBlock?(data, nil) }
+        else { self.photoCaptureCompletionBlock?(nil, CameraControllerError.unknown) }
+    }
+    
+    // implementing AVCapturePhotoCaptureDelegate methods for LivePhoto:
+    
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishRecordingLivePhotoMovieForEventualFileAt outputFileURL: URL, resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        
+    }
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingLivePhotoToMovieFileAt outputFileURL: URL, duration: CMTime, photoDisplayTime: CMTime, resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
+        
     }
     
     
@@ -236,7 +252,7 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
 
 extension CameraController {
     
-    enum CameraControllerError: Swift.Error {
+    private enum CameraControllerError: Swift.Error {
         case captureSessionIsAlreadyRunning
         case captureSessionIsMissing
         case inputsAreInvalid
@@ -248,5 +264,10 @@ extension CameraController {
     public enum CameraPosition {
         case front
         case rear
+    }
+    
+    enum LivePhotoMode {
+        case on
+        case off
     }
 }

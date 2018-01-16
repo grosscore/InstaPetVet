@@ -51,6 +51,9 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         PHPhotoLibrary.shared().register(self)
         
         self.captureMode = .photo
+        
+        self.livePhotoButton.isEnabled = (cameraController.photoOutput!.isLivePhotoCaptureSupported) ? true : false
+        print(cameraController.photoOutput!.isLivePhotoCaptureSupported)
     }
 
     func constrainManagingView() {
@@ -82,12 +85,12 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
             if let photoOutputConnection = cameraController.photoOutput?.connection(with: AVMediaType.video) {
                 photoOutputConnection.videoOrientation = AVCaptureVideoOrientation(rawValue: deviceOrientation)!
             }
-            cameraController.captureImage {(image, error) in
-                guard let image = image else {
+            cameraController.captureImage {(imageData, error) in
+                guard let imageData = imageData else {
                     print(error ?? "Image capture error")
                     return
                 }
-                self.photo = image
+                self.photo = UIImage(data: imageData)
                 self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: sender)
                 self.captureButton.isEnabled = true
                 UIDevice.current.endGeneratingDeviceOrientationNotifications()
@@ -158,6 +161,15 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         }
     }
     @IBAction func livePhoto(_ sender: UIButton) {
+        if cameraController.livePhotoMode == .off {
+            cameraController.livePhotoMode = .on
+            self.livePhotoButton.setImage(#imageLiteral(resourceName: "livephoto-yellow"), for: .normal)
+            print("live photo ON")
+        } else {
+            cameraController.livePhotoMode = .off
+            self.livePhotoButton.setImage(#imageLiteral(resourceName: "livephoto-white"), for: .normal)
+            print("live photo OFF")
+        }
     }
     
     @IBAction func applyGlittersEffect(_ sender: UIButton) {
