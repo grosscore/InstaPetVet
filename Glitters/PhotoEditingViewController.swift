@@ -8,15 +8,23 @@
 
 import UIKit
 import Photos
+import PhotosUI
 
 class PhotoEditingViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var livePhotoView: PHLivePhotoView!
     
     override var prefersStatusBarHidden: Bool { return true }
     override var shouldAutorotate: Bool { return false }
     
     var image: UIImage?
+    var livePhoto: PHLivePhoto? {
+        didSet {
+            livePhotoView.livePhoto = livePhoto
+            livePhotoView.contentMode = .scaleAspectFit
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,4 +42,6 @@ class PhotoEditingViewController: UIViewController {
     
     @IBAction func applyGlitteringEffect(_ sender: UIButton) {
     }
+    
+
 }

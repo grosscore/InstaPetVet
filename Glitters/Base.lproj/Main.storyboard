@@ -20,6 +20,55 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleAspectFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="40" distribution="equalSpacing" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2VV-Ej-TjG">
+                                <rect key="frame" x="16" y="36" width="343" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2P-Rc-9mD">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="B0L-H2-q7E"/>
+                                            <constraint firstAttribute="width" constant="40" id="kfb-Lc-krn"/>
+                                        </constraints>
+                                        <state key="normal" image="flash-off"/>
+                                        <connections>
+                                            <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HZm-1e-UUl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WhG-Gt-kJq">
+                                        <rect key="frame" x="101" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="4Rs-8M-hni"/>
+                                            <constraint firstAttribute="width" constant="40" id="EHX-Dk-2cw"/>
+                                        </constraints>
+                                        <state key="normal" image="livephoto-white"/>
+                                        <connections>
+                                            <action selector="livePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T5q-oY-tph"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PM2-cE-4jn">
+                                        <rect key="frame" x="202" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="IDD-wd-PGQ"/>
+                                            <constraint firstAttribute="width" constant="40" id="OqE-tA-Rzw"/>
+                                        </constraints>
+                                        <state key="normal" image="rotate"/>
+                                        <connections>
+                                            <action selector="switchCameras:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PyP-U1-1M5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1r-wc-AW1">
+                                        <rect key="frame" x="303" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="3sy-8b-XOX"/>
+                                            <constraint firstAttribute="height" constant="40" id="JZV-Dl-WKY"/>
+                                        </constraints>
+                                        <state key="normal" image="glitters"/>
+                                        <connections>
+                                            <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nua-0O-8YX"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OMy-15-8Wh">
                                 <rect key="frame" x="0.0" y="499" width="375" height="168"/>
                                 <subviews>
@@ -86,55 +135,6 @@
                                     <constraint firstItem="JpI-Bi-avH" firstAttribute="centerX" secondItem="OMy-15-8Wh" secondAttribute="centerX" id="Qf5-wN-6eS"/>
                                 </constraints>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleAspectFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="40" distribution="equalSpacing" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2VV-Ej-TjG">
-                                <rect key="frame" x="16" y="36" width="343" height="40"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2P-Rc-9mD">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="B0L-H2-q7E"/>
-                                            <constraint firstAttribute="width" constant="40" id="kfb-Lc-krn"/>
-                                        </constraints>
-                                        <state key="normal" image="flash-off"/>
-                                        <connections>
-                                            <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HZm-1e-UUl"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WhG-Gt-kJq">
-                                        <rect key="frame" x="101" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="4Rs-8M-hni"/>
-                                            <constraint firstAttribute="width" constant="40" id="EHX-Dk-2cw"/>
-                                        </constraints>
-                                        <state key="normal" image="livephoto-white"/>
-                                        <connections>
-                                            <action selector="livePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T5q-oY-tph"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PM2-cE-4jn">
-                                        <rect key="frame" x="202" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="IDD-wd-PGQ"/>
-                                            <constraint firstAttribute="width" constant="40" id="OqE-tA-Rzw"/>
-                                        </constraints>
-                                        <state key="normal" image="rotate"/>
-                                        <connections>
-                                            <action selector="switchCameras:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PyP-U1-1M5"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1r-wc-AW1">
-                                        <rect key="frame" x="303" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="3sy-8b-XOX"/>
-                                            <constraint firstAttribute="height" constant="40" id="JZV-Dl-WKY"/>
-                                        </constraints>
-                                        <state key="normal" image="glitters"/>
-                                        <connections>
-                                            <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nua-0O-8YX"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
@@ -180,6 +180,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="500.5"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AG3-yX-GUU" userLabel="Live Photo View" customClass="PHLivePhotoView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="500.5"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heU-YG-Xcw">
                                 <rect key="frame" x="319" y="36" width="40" height="40"/>
                                 <constraints>
@@ -249,23 +252,28 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="AG3-yX-GUU" firstAttribute="width" secondItem="4O4-iT-gxc" secondAttribute="width" id="4RD-8k-R1S"/>
                             <constraint firstItem="aUF-Cs-Y4H" firstAttribute="trailing" secondItem="x3p-Vg-api" secondAttribute="trailing" id="BIK-6B-zb7"/>
                             <constraint firstItem="aUF-Cs-Y4H" firstAttribute="top" secondItem="4O4-iT-gxc" secondAttribute="bottom" id="Ba1-La-zJs"/>
                             <constraint firstItem="x3p-Vg-api" firstAttribute="trailing" secondItem="heU-YG-Xcw" secondAttribute="trailing" constant="16" id="Bmo-Cd-cXc"/>
                             <constraint firstItem="heU-YG-Xcw" firstAttribute="top" secondItem="x3p-Vg-api" secondAttribute="top" constant="16" id="Hfi-HT-BRt"/>
                             <constraint firstItem="ESf-2j-uKe" firstAttribute="top" secondItem="x3p-Vg-api" secondAttribute="top" constant="16" id="S8A-BV-ZGm"/>
+                            <constraint firstItem="AG3-yX-GUU" firstAttribute="leading" secondItem="4O4-iT-gxc" secondAttribute="leading" id="SBd-XX-gJ5"/>
                             <constraint firstItem="4O4-iT-gxc" firstAttribute="leading" secondItem="x3p-Vg-api" secondAttribute="leading" id="VUZ-x5-B4c"/>
                             <constraint firstItem="4O4-iT-gxc" firstAttribute="trailing" secondItem="x3p-Vg-api" secondAttribute="trailing" id="YFH-oP-PyU"/>
                             <constraint firstItem="4O4-iT-gxc" firstAttribute="top" secondItem="jmH-Iy-xe5" secondAttribute="top" id="bdv-PL-rpH"/>
                             <constraint firstItem="aUF-Cs-Y4H" firstAttribute="leading" secondItem="x3p-Vg-api" secondAttribute="leading" id="eud-dT-qMv"/>
                             <constraint firstItem="ESf-2j-uKe" firstAttribute="leading" secondItem="x3p-Vg-api" secondAttribute="leading" constant="16" id="jGS-JK-QHk"/>
+                            <constraint firstItem="AG3-yX-GUU" firstAttribute="height" secondItem="4O4-iT-gxc" secondAttribute="height" id="kbV-Z8-L5P"/>
                             <constraint firstItem="aUF-Cs-Y4H" firstAttribute="bottom" secondItem="x3p-Vg-api" secondAttribute="bottom" id="m5g-sK-rku"/>
                             <constraint firstItem="4O4-iT-gxc" firstAttribute="bottom" secondItem="x3p-Vg-api" secondAttribute="bottom" multiplier="3:4" id="oDj-6H-1ng"/>
+                            <constraint firstItem="AG3-yX-GUU" firstAttribute="top" secondItem="4O4-iT-gxc" secondAttribute="top" id="rUP-Zb-XOU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="x3p-Vg-api"/>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="4O4-iT-gxc" id="hgF-Ej-xSj"/>
+                        <outlet property="imageView" destination="4O4-iT-gxc" id="qs2-a9-5fg"/>
+                        <outlet property="livePhotoView" destination="AG3-yX-GUU" id="am0-ir-pex"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fqd-wJ-Enp" userLabel="First Responder" sceneMemberID="firstResponder"/>

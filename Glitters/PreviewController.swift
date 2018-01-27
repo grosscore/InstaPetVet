@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import PhotosUI
 
 class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -26,7 +27,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     let cameraController = CameraController()
     var photo: UIImage?
     
-    var captureMode: CaptureMode?
+    var captureMode: CaptureMode = .photo
     
     override func viewDidLayoutSubviews() {
         constrainManagingView()
@@ -49,11 +50,6 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         
         setCameraRollButtonImage()
         PHPhotoLibrary.shared().register(self)
-        
-        self.captureMode = .photo
-        
-        self.livePhotoButton.isEnabled = (cameraController.photoOutput!.isLivePhotoCaptureSupported) ? true : false
-        print(cameraController.photoOutput!.isLivePhotoCaptureSupported)
     }
 
     func constrainManagingView() {
@@ -75,7 +71,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
 
     
-    //================================
+    // Capturing photo
     
     @IBAction func capture(_ sender: UIButton) {
         self.captureButton.isEnabled = false
@@ -98,18 +94,22 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         }
     }
     
-    // ImagePickerController methods
+    // ===================== MARK: - ImagePickerController methods =========================
+    
     @IBAction func openCameraRoll(_ sender: UIButton) {
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             let imagePicker = UIImagePickerController()
-            imagePicker.allowsEditing = false
             imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.mediaTypes = ["public.image", "public.movie"]
+            imagePicker.allowsEditing = false
             imagePicker.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
+            print(imagePicker.mediaTypes)
         }
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         self.photo = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
         dismiss(animated: true, completion: nil)
         self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: nil)
     }
@@ -130,7 +130,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         }
     }
 
-    //===========================
+    //=========================== MARK: - UI-elements Methods ==================================
     
     @IBAction func tapToFocus(_ sender: UITapGestureRecognizer) {
         let devicePoint = cameraController.previewLayer?.captureDevicePointConverted(fromLayerPoint: sender.location(in: sender.view))
@@ -138,9 +138,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
     
     @IBAction func switchMode(_ sender: UIButton) {
-        do {
-            try self.cameraController.configureVideoOutput()
-        } catch { print("error configuring Video Output")}
+
     }
     
     @IBAction func toggleFlash(_ sender: UIButton) {
@@ -176,6 +174,8 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
     
 }
+
+// =============================== MARK: - Extension ==================================
 
 extension PreviewController: PHPhotoLibraryChangeObserver {
     enum CaptureMode {
