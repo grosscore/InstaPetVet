@@ -19,18 +19,25 @@ class PhotoEditingViewController: UIViewController {
     override var shouldAutorotate: Bool { return false }
     
     var image: UIImage?
-    var livePhoto: PHLivePhoto? {
-        didSet {
-            livePhotoView.livePhoto = livePhoto
-            livePhotoView.contentMode = .scaleAspectFit
-        }
-    }
+    var livePhoto: PHLivePhoto?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        imageView.image = image
+        if image != nil {
+            imageView.image = image
+        }
+        if livePhoto != nil {
+            livePhotoView.livePhoto = livePhoto
+        }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.image = nil
+        self.livePhoto = nil
+        self.livePhotoView = nil
+        self.imageView = nil
+    }
+    
     
     @IBAction func savePhotoToCameraRoll(_ sender: UIButton) {
         guard let image = image else { print("Image saving error: no image found"); return}

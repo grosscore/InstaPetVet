@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 import Photos
 import PhotosUI
 
@@ -25,7 +26,9 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     override var prefersStatusBarHidden: Bool { return true }
     
     let cameraController = CameraController()
+    
     var photo: UIImage?
+    var livePhoto: PHLivePhoto?
     
     var captureMode: CaptureMode = .photo
     
@@ -50,6 +53,13 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         
         setCameraRollButtonImage()
         PHPhotoLibrary.shared().register(self)
+        
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.photo = nil
+        self.livePhoto = nil
     }
 
     func constrainManagingView() {
@@ -66,6 +76,9 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
             let destination = segue.destination as! PhotoEditingViewController
             if self.photo != nil {
                 destination.image = photo
+            }
+            if self.livePhoto != nil {
+                destination.livePhoto = livePhoto
             }
         }
     }
@@ -87,6 +100,7 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
                     return
                 }
                 self.photo = UIImage(data: imageData)
+                
                 self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: sender)
                 self.captureButton.isEnabled = true
                 UIDevice.current.endGeneratingDeviceOrientationNotifications()
@@ -100,15 +114,23 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
             let imagePicker = UIImagePickerController()
             imagePicker.sourceType = .savedPhotosAlbum
-            imagePicker.mediaTypes = ["public.image", "public.movie"]
+            imagePicker.mediaTypes = ["public.image", "public.movie", "com.apple.live-photo"]
             imagePicker.allowsEditing = false
+            
             imagePicker.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
             print(imagePicker.mediaTypes)
+            
         }
     }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        self.photo = info[UIImagePickerControllerOriginalImage] as? UIImage
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
+        switch mediaType {
+        case "public.image": self.photo = info[UIImagePickerControllerOriginalImage] as? UIImage
+        case "public.movie": break
+        case "com.apple.live-photo": self.livePhoto = info[UIImagePickerControllerLivePhoto] as? PHLivePhoto
+        default: break
+        }
         
         dismiss(animated: true, completion: nil)
         self.performSegue(withIdentifier: "presentPhotoEditingViewController", sender: nil)

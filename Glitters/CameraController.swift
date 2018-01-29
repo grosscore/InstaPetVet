@@ -25,18 +25,10 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     
     var flashMode = AVCaptureDevice.FlashMode.off
     var photoCaptureCompletionBlock: ((Data?, Error?) -> Void)?
-    var photoData: Data? {
-        didSet {
-            print(photoData!)
-        }
-    }
     
+    var photoData: Data?
+    var livePhotoCompanionMovieURL: URL?
     var livePhotoMode: LivePhotoMode = .off
-    var livePhotoCompanionMovieURL: URL? {
-        didSet {
-            print(livePhotoCompanionMovieURL!)
-        }
-    }
     
     func prepare(completionHandler: @escaping (Error?) -> Void) {
 
@@ -110,7 +102,6 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
             captureSession.addOutput(self.photoOutput!)
             photoOutput!.isHighResolutionCaptureEnabled = true
             photoOutput!.isLivePhotoCaptureEnabled = photoOutput!.isLivePhotoCaptureSupported
-            print(photoOutput!.isLivePhotoCaptureEnabled)
         }
         
         self.captureSession!.startRunning()
@@ -186,7 +177,8 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
         else
-            if let data = photo.fileDataRepresentation() { self.photoCaptureCompletionBlock?(data, nil); self.photoData = data}
+            
+            if let data = photo.fileDataRepresentation() { self.photoCaptureCompletionBlock?(data, nil); self.photoData = data }
         else { self.photoCaptureCompletionBlock?(nil, CameraControllerError.unknown) }
     }
 
@@ -207,7 +199,8 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
             print("An error occured while finishing capture the photo: \(error)")
         } else {
             if self.livePhotoMode == .on {
-                saveLivePhotoToPhotoLibrary(photoData: photoData, livePhotoMovieURL: livePhotoMovieURL)
+                
+            saveLivePhotoToPhotoLibrary(photoData: photoData, livePhotoMovieURL: livePhotoMovieURL)
             }
         }
     }
@@ -224,10 +217,26 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
                     creationOptions.shouldMoveFile = true
                     creationRequest.addResource(with: .photo, data: photoData, options: creationOptions)
                     creationRequest.addResource(with: .pairedVideo, fileURL: livePhotoMovieURL, options: creationOptions)
+                    
                     print("Successfully saved LivePhoto to PhotoLibrary")
                 }
             } else {
                 self.didFinish()
+            }
+        }
+    }
+    
+    // Create LivePhoto object
+    func createLivePhotoObject(movieFileURL: URL, imageData: Data, completion: @escaping (_ livePhotoObject: PHLivePhoto) -> Void) {
+        
+        let previewImage = UIImage(data: imageData)
+        PHLivePhoto.request(withResourceFileURLs: [movieFileURL], placeholderImage: previewImage, targetSize: CGSize.zero, contentMode: .aspectFill) {
+            (livePhoto, infoDict) -> Void in
+            if let requestedPhoto = livePhoto {
+                
+                completion(requestedPhoto)
+            } else {
+                print("Error creating LivePhoto object")
             }
         }
     }
