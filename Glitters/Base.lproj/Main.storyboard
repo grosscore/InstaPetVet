@@ -20,6 +20,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="drp-LX-o2G" userLabel="previewView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Tgz-q6-64m" appends="YES" id="KOu-pI-wKU"/>
+                                </connections>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleAspectFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="40" distribution="equalSpacing" spacingType="standard" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2VV-Ej-TjG">
                                 <rect key="frame" x="16" y="36" width="343" height="40"/>
                                 <subviews>
@@ -29,7 +37,9 @@
                                             <constraint firstAttribute="height" constant="40" id="B0L-H2-q7E"/>
                                             <constraint firstAttribute="width" constant="40" id="kfb-Lc-krn"/>
                                         </constraints>
-                                        <state key="normal" image="flash-off"/>
+                                        <state key="normal" image="flash-off">
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="toggleFlash:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HZm-1e-UUl"/>
                                         </connections>
@@ -40,7 +50,9 @@
                                             <constraint firstAttribute="height" constant="40" id="4Rs-8M-hni"/>
                                             <constraint firstAttribute="width" constant="40" id="EHX-Dk-2cw"/>
                                         </constraints>
-                                        <state key="normal" image="livephoto-white"/>
+                                        <state key="normal" image="livephoto-white">
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="livePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T5q-oY-tph"/>
                                         </connections>
@@ -51,7 +63,9 @@
                                             <constraint firstAttribute="height" constant="40" id="IDD-wd-PGQ"/>
                                             <constraint firstAttribute="width" constant="40" id="OqE-tA-Rzw"/>
                                         </constraints>
-                                        <state key="normal" image="rotate"/>
+                                        <state key="normal" image="rotate">
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="switchCameras:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PyP-U1-1M5"/>
                                         </connections>
@@ -62,7 +76,9 @@
                                             <constraint firstAttribute="width" constant="40" id="3sy-8b-XOX"/>
                                             <constraint firstAttribute="height" constant="40" id="JZV-Dl-WKY"/>
                                         </constraints>
-                                        <state key="normal" image="glitters"/>
+                                        <state key="normal" image="glitters">
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="applyGlittersEffect:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nua-0O-8YX"/>
                                         </connections>
@@ -129,24 +145,24 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29711464723926378" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="JpI-Bi-avH" firstAttribute="centerY" secondItem="OMy-15-8Wh" secondAttribute="centerY" id="Nxe-jP-GPI"/>
                                     <constraint firstItem="JpI-Bi-avH" firstAttribute="centerX" secondItem="OMy-15-8Wh" secondAttribute="centerX" id="Qf5-wN-6eS"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="drp-LX-o2G" firstAttribute="trailing" secondItem="gKF-Pf-xpC" secondAttribute="trailing" id="2j6-Z4-L1a"/>
+                            <constraint firstItem="drp-LX-o2G" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4Qr-bU-y5K"/>
                             <constraint firstItem="2VV-Ej-TjG" firstAttribute="top" secondItem="gKF-Pf-xpC" secondAttribute="top" constant="16" id="K2u-1C-zhQ"/>
                             <constraint firstItem="2VV-Ej-TjG" firstAttribute="leading" secondItem="gKF-Pf-xpC" secondAttribute="leading" constant="16" id="fo9-Nt-bai"/>
                             <constraint firstItem="gKF-Pf-xpC" firstAttribute="trailing" secondItem="2VV-Ej-TjG" secondAttribute="trailing" constant="16" id="kpd-N6-NZH"/>
+                            <constraint firstItem="drp-LX-o2G" firstAttribute="leading" secondItem="gKF-Pf-xpC" secondAttribute="leading" id="myQ-yx-LDh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gKF-Pf-xpC"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="Tgz-q6-64m" appends="YES" id="EoC-Z1-rRI"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="cameraRollButton" destination="Cy7-ir-bV7" id="6Ou-cu-XYc"/>
@@ -155,7 +171,7 @@
                         <outlet property="livePhotoButton" destination="WhG-Gt-kJq" id="41A-XX-k5i"/>
                         <outlet property="managingView" destination="OMy-15-8Wh" id="tVm-UK-no5"/>
                         <outlet property="modeSwitcherButton" destination="PRy-mN-ATQ" id="rZe-4Y-JD3"/>
-                        <outlet property="previewView" destination="8bC-Xf-vdC" id="Vyb-fP-c9l"/>
+                        <outlet property="previewView" destination="drp-LX-o2G" id="GsP-jT-sCW"/>
                         <segue destination="fae-TW-bt2" kind="presentation" identifier="presentPhotoEditingViewController" modalTransitionStyle="crossDissolve" id="gPo-GX-nAK"/>
                     </connections>
                 </viewController>

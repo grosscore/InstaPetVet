@@ -27,6 +27,8 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     
     let cameraController = CameraController()
     
+    private let sessionQueue = DispatchQueue(label: "session queue")
+    
     var photo: UIImage?
     var livePhoto: PHLivePhoto?
     
@@ -36,6 +38,8 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         constrainManagingView()
         self.modeSwitcherButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         self.cameraRollButton.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        self.previewView.frame = self.view.bounds
+        
     }
     
     override func viewDidLoad() {
@@ -53,8 +57,6 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         
         setCameraRollButtonImage()
         PHPhotoLibrary.shared().register(self)
-        
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,11 +118,8 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
             imagePicker.sourceType = .savedPhotosAlbum
             imagePicker.mediaTypes = ["public.image", "public.movie", "com.apple.live-photo"]
             imagePicker.allowsEditing = false
-            
             imagePicker.delegate = self
             self.present(imagePicker, animated: true, completion: nil)
-            print(imagePicker.mediaTypes)
-            
         }
     }
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -160,26 +159,86 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
     
     @IBAction func switchMode(_ sender: UIButton) {
+        if captureMode == .photo {
+            do {
+                try cameraController.configureSessionForVideoMode()
+            } catch {
+                print("error while configuring session for Video Mode: \(error)")
+            }
+            self.livePhotoButton.isHidden = true
+            captureMode = .video
+            print("Video capture mode")
+            switch cameraController.flashMode {
+            case .on: cameraController.torchMode = .on
+            case .off: cameraController.torchMode = .off
+            default: return
+            }
+            if cameraController.currentCameraPosition == .front {
+                cameraController.torchMode = .off
+                flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+            }
+        } else {
+            do {
+                try cameraController.configureSessionForPhotoMode()
+            } catch {
+                print("error while configuring session for Photo Mode: \(error)")
+            }
+            self.livePhotoButton.isHidden = false
+            captureMode = .photo
+            print("Photo capture mode")
+            switch cameraController.torchMode {
+            case .on: cameraController.flashMode = .on
+            case .off: cameraController.flashMode = .off
+            default: return
+            }
+        }
 
     }
     
     @IBAction func toggleFlash(_ sender: UIButton) {
-        if cameraController.flashMode == .on {
-            cameraController.flashMode = .off
-            flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+        if captureMode == .photo {
+            if cameraController.flashMode == .on {
+                cameraController.flashMode = .off
+                flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+            } else {
+                cameraController.flashMode = .on
+                flashButton.setImage(#imageLiteral(resourceName: "flash-on"), for: .normal)
+            }
         } else {
-            cameraController.flashMode = .on
-            flashButton.setImage(#imageLiteral(resourceName: "flash-on"), for: .normal)
+            if cameraController.currentCameraPosition == .rear {
+                if cameraController.torchMode == .on {
+                    cameraController.torchMode = .off
+                    flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+                } else {
+                    cameraController.torchMode = .on
+                    flashButton.setImage(#imageLiteral(resourceName: "flash-on"), for: .normal)
+                }
+            } else {
+                print("No torch available")
+                flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+            }
         }
     }
     
     @IBAction func switchCameras(_ sender: UIButton) {
-        do {
-            try cameraController.switchCameras()
-        } catch {
-            print(error)
+        if let currentCameraPosition = cameraController.currentCameraPosition {
+            if currentCameraPosition == .front {
+                do {
+                    try! cameraController.switchToRearCamera()
+                }
+            } else {
+                do {
+                    try! cameraController.switchToFrontCamera()
+                    if captureMode == .video {
+                        cameraController.torchMode = .off
+                        flashButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+                    }
+                }
+            }
         }
+        
     }
+    
     @IBAction func livePhoto(_ sender: UIButton) {
         if cameraController.livePhotoMode == .off {
             cameraController.livePhotoMode = .on
