@@ -46,7 +46,7 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
         
         func configureCaptureDevices() throws {
             let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .unspecified)
-            let cameras = (discoverySession.devices.flatMap { $0 })
+            let cameras = (discoverySession.devices.compactMap { $0 })
             guard !cameras.isEmpty else { throw CameraControllerError.noCamerasAvailable }
             
             for camera in cameras {
@@ -144,6 +144,8 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.videoGravity = .resizeAspect
         previewLayer.frame = view.bounds
+        //previewLayer.position = view.bounds.origin
+        
         self.previewLayer = previewLayer
         view.layer.insertSublayer(self.previewLayer!, at: 0)
     }
@@ -158,13 +160,13 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
         captureSession.commitConfiguration()
     }
     
-    func configureSessionForVideoMode() throws {
-        guard let captureSession = self.captureSession, captureSession.isRunning, let photoOutput = self.photoOutput, let device = AVCaptureDevice.default(for: .video) else { throw CameraControllerError.captureSessionIsMissing }
-        captureSession.beginConfiguration()
-        captureSession.sessionPreset = .high
-        photoOutput.isLivePhotoCaptureEnabled = false
-        captureSession.commitConfiguration()
-    }
+//    func configureSessionForVideoMode() throws {
+//        guard let captureSession = self.captureSession, captureSession.isRunning, let photoOutput = self.photoOutput, let device = AVCaptureDevice.default(for: .video) else { throw CameraControllerError.captureSessionIsMissing }
+//        captureSession.beginConfiguration()
+//        captureSession.sessionPreset = .high
+//        photoOutput.isLivePhotoCaptureEnabled = false
+//        captureSession.commitConfiguration()
+//    }
     
     // ==================== MARK: - CAPTURING PHOTO ========================================
     
@@ -216,9 +218,7 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
             }
         }
     }
-    
 
-    
     // Save Live Photo To PhotoLibrary ===============!!!!==================!!!!============!!!!!========================!!!!!!!!!!!!
     func saveLivePhotoToPhotoLibrary(photoData: Data, livePhotoMovieURL: URL) {
         PHPhotoLibrary.requestAuthorization { status in
@@ -257,6 +257,11 @@ class CameraController: NSObject, AVCapturePhotoCaptureDelegate, AVCaptureVideoD
     
     func captureVideo()  {
         guard let captureSession = self.captureSession, captureSession.isRunning, let videoOutput = self.videoOutput else { return }
+        let videoQueue = DispatchQueue(label: "videoQueue")
+        videoOutput.setSampleBufferDelegate(self, queue: videoQueue)
+    }
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
     }
     
