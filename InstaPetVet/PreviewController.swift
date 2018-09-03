@@ -66,12 +66,12 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
 
     func constrainManagingView() {
-        let safeArea = self.view.safeAreaLayoutGuide
-        let height = UIScreen.main.bounds.size.height - (UIScreen.main.bounds.height * 3/4)
-        managingView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
-        managingView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
-        managingView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
-        managingView.heightAnchor.constraint(equalToConstant: height).isActive = true
+//        let safeArea = self.view.safeAreaLayoutGuide
+//        let height = UIScreen.main.bounds.size.height - (UIScreen.main.bounds.height * 3/4)
+//        managingView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
+//        managingView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
+//        managingView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
+//        managingView.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -79,9 +79,6 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
             let destination = segue.destination as! PhotoAnalysisViewController
             if self.photo != nil {
                 destination.image = photo
-            }
-            if self.livePhoto != nil {
-                destination.livePhoto = livePhoto
             }
         }
     }
