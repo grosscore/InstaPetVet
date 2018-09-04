@@ -232,8 +232,8 @@
                                                     <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="x13-pl-IOb">
-                                                    <rect key="frame" x="12" y="80" width="744" height="58"/>
+                                                <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="x13-pl-IOb">
+                                                    <rect key="frame" x="12" y="352" width="744" height="64.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TITLE BLOB 1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSu-KW-UOK">
                                                             <rect key="frame" x="310.5" y="0.0" width="123" height="23"/>
@@ -242,8 +242,8 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFL-ao-zrt">
-                                                            <rect key="frame" x="275.5" y="38" width="193" height="20"/>
-                                                            <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
+                                                            <rect key="frame" x="262.5" y="43" width="219.5" height="21.5"/>
+                                                            <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="18"/>
                                                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -253,9 +253,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="x13-pl-IOb" secondAttribute="trailing" constant="12" id="0JX-6U-z1G"/>
-                                                <constraint firstItem="x13-pl-IOb" firstAttribute="top" secondItem="gaj-Ol-Bxu" secondAttribute="top" constant="80" id="VtN-Qm-7Bp"/>
+                                                <constraint firstItem="x13-pl-IOb" firstAttribute="centerX" secondItem="gaj-Ol-Bxu" secondAttribute="centerX" id="QMS-QC-Tsx"/>
                                                 <constraint firstItem="erR-Va-Hjq" firstAttribute="centerX" secondItem="gaj-Ol-Bxu" secondAttribute="centerX" id="XJJ-hO-3ha"/>
                                                 <constraint firstItem="erR-Va-Hjq" firstAttribute="centerY" secondItem="gaj-Ol-Bxu" secondAttribute="centerY" id="tmO-3L-wzN"/>
+                                                <constraint firstItem="x13-pl-IOb" firstAttribute="centerY" secondItem="gaj-Ol-Bxu" secondAttribute="centerY" id="yIZ-4u-b6T"/>
                                                 <constraint firstItem="x13-pl-IOb" firstAttribute="leading" secondItem="gaj-Ol-Bxu" secondAttribute="leading" constant="12" id="zwQ-wu-rOn"/>
                                             </constraints>
                                         </view>
@@ -402,8 +403,8 @@
                                                         <segue destination="J9Y-FZ-TXX" kind="unwind" unwindAction="closeWithSegue:" id="ZwT-6Z-4Kh"/>
                                                     </connections>
                                                 </button>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="3ew-41-dxB">
-                                                    <rect key="frame" x="12" y="80" width="744" height="59"/>
+                                                <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3ew-41-dxB">
+                                                    <rect key="frame" x="12" y="352" width="744" height="64.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TITLE BLOB 1" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kda-5W-ged">
                                                             <rect key="frame" x="310.5" y="0.0" width="123" height="23"/>
@@ -412,8 +413,8 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet" textAlignment="justified" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="90U-fu-sHH">
-                                                            <rect key="frame" x="270" y="38" width="204" height="21"/>
-                                                            <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="18"/>
+                                                            <rect key="frame" x="262.5" y="43" width="219.5" height="21.5"/>
+                                                            <fontDescription key="fontDescription" name="GillSans-SemiBold" family="Gill Sans" pointSize="18"/>
                                                             <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -424,8 +425,9 @@
                                             <constraints>
                                                 <constraint firstItem="PgY-hU-LEt" firstAttribute="centerX" secondItem="fbJ-2A-HQe" secondAttribute="centerX" id="23D-8q-knq"/>
                                                 <constraint firstAttribute="trailing" secondItem="3ew-41-dxB" secondAttribute="trailing" constant="12" id="6aZ-zm-1tc"/>
-                                                <constraint firstItem="3ew-41-dxB" firstAttribute="top" secondItem="fbJ-2A-HQe" secondAttribute="top" constant="80" id="E6N-HC-P0Q"/>
+                                                <constraint firstItem="3ew-41-dxB" firstAttribute="centerY" secondItem="fbJ-2A-HQe" secondAttribute="centerY" id="86N-pg-zLQ"/>
                                                 <constraint firstItem="8sm-rh-a5m" firstAttribute="top" secondItem="fbJ-2A-HQe" secondAttribute="topMargin" id="FQl-5a-RdD"/>
+                                                <constraint firstItem="3ew-41-dxB" firstAttribute="centerX" secondItem="fbJ-2A-HQe" secondAttribute="centerX" id="Jt3-64-oJz"/>
                                                 <constraint firstAttribute="trailing" secondItem="8sm-rh-a5m" secondAttribute="trailing" constant="16" id="OkW-ec-KhO"/>
                                                 <constraint firstItem="PgY-hU-LEt" firstAttribute="centerY" secondItem="fbJ-2A-HQe" secondAttribute="centerY" id="PXa-Wd-jhP"/>
                                                 <constraint firstItem="3ew-41-dxB" firstAttribute="leading" secondItem="fbJ-2A-HQe" secondAttribute="leading" constant="12" id="pBt-UY-aLC"/>

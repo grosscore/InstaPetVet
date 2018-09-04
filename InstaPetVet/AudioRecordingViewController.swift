@@ -1,3 +1,12 @@
+//
+//  PhotoEditingViewController.swift
+//  InstaPetVet
+//
+//  Created by Alex Gnilov on 12/27/17.
+//  Copyright © 2017 GrossCo. All rights reserved.
+//
+
+
 import Foundation
 import AVFoundation
 import UIKit
@@ -36,12 +45,8 @@ class AudioRecordingController: UIViewController, AVAudioRecorderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // audio session setup
-        requestRecordPermission()
-        setupAudioRecorder()
-        setupCircularProgressBar()
-        startRecording()
-        
-        
+        checkAudioPermission()
+    
     }
     
     override func viewDidLayoutSubviews() {
@@ -55,10 +60,22 @@ class AudioRecordingController: UIViewController, AVAudioRecorderDelegate {
     
     // MARK: - AUDIO RECORDING
     
+    private func checkAudioPermission() {
+        let permission = AVAudioSession.sharedInstance().recordPermission()
+        if permission == AVAudioSessionRecordPermission.granted  {
+            self.permissionGranted = true
+            setupAudioRecorder()
+            setupCircularProgressBar()
+            startRecording()
+        } else {
+            requestRecordPermission()
+        }
+    }
+    
     private func requestRecordPermission() {
         AVAudioSession.sharedInstance().requestRecordPermission () { [unowned self] allowed in
             if allowed {
-                self.permissionGranted = true
+                self.checkAudioPermission()
             } else {
                 self.statusAlert()
             }
@@ -73,7 +90,7 @@ class AudioRecordingController: UIViewController, AVAudioRecorderDelegate {
         audioURL = docsDirect.appendingPathComponent("instapetvet_audiofile.m4a")
         
         do {
-            try recordingSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default)
+            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord, mode: AVAudioSessionModeDefault)
             try recordingSession.setActive(true)
             let settings = [
                 AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -99,7 +116,7 @@ class AudioRecordingController: UIViewController, AVAudioRecorderDelegate {
         AudioServicesPlaySystemSound(1113)
         
         updater = CADisplayLink(target: self, selector: #selector(trackAudio))
-        updater?.add(to: RunLoop.current, forMode: RunLoop.Mode.common)
+        updater?.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
         
     }
     
@@ -192,7 +209,7 @@ extension AudioRecordingController {
         alert.addAction(UIAlertAction(
             title: "OK", style: .default, handler: {
                 _ in
-                let url = URL(string:UIApplication.openSettingsURLString)!
+                let url = URL(string: UIApplicationOpenSettingsURLString)!
                 UIApplication.shared.open(url)
         }))
         self.present(alert, animated:true, completion:nil)
@@ -207,7 +224,7 @@ extension AudioRecordingController {
         trackLayer.path = circularPath.cgPath
         trackLayer.strokeColor = UIColor(red: 145/255, green: 65/255, blue: 80/255, alpha: 0.4).cgColor
         trackLayer.lineWidth = 23
-        trackLayer.lineCap = CAShapeLayerLineCap.round
+        trackLayer.lineCap = kCALineCapRound
         trackLayer.fillColor = UIColor.clear.cgColor
         trackLayer.opacity = 1
         
@@ -215,7 +232,7 @@ extension AudioRecordingController {
         shapeLayer.path = circularPath.cgPath
         shapeLayer.strokeColor = UIColor(red: 255/255, green: 123/255, blue: 163/255, alpha: 1).cgColor
         shapeLayer.lineWidth = 19
-        shapeLayer.lineCap = CAShapeLayerLineCap.round
+        shapeLayer.lineCap = kCALineCapRound
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.opacity = 1
         
@@ -242,7 +259,7 @@ extension AudioRecordingController {
             let scalingAnimation = CABasicAnimation(keyPath: "transform.scale")
             scalingAnimation.toValue = 1.15
             scalingAnimation.duration = 0.8
-            scalingAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+            scalingAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             scalingAnimation.autoreverses = true
             scalingAnimation.repeatCount = Float.infinity
             layer.add(scalingAnimation, forKey: "scaling")
@@ -250,7 +267,7 @@ extension AudioRecordingController {
             let lineWidthAnimation = CABasicAnimation(keyPath: "lineWidth")
             lineWidthAnimation.toValue = layer.lineWidth * 1.15
             lineWidthAnimation.duration = 0.8
-            lineWidthAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+            lineWidthAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             lineWidthAnimation.autoreverses = true
             lineWidthAnimation.repeatCount = Float.infinity
             layer.add(lineWidthAnimation, forKey: "lineWidth")

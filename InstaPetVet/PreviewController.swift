@@ -1,6 +1,6 @@
 //
 //  PreviewController.swift
-//  Glitters
+//  InstaPetVet
 //
 //  Created by Alex Gnilov on 12/24/17.
 //  Copyright © 2017 GrossCo. All rights reserved.
@@ -121,10 +121,10 @@ class PreviewController: UIViewController, UIImagePickerControllerDelegate, UINa
         }
     }
     
-    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let mediaType = info[UIImagePickerController.InfoKey.mediaType] as! String
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
         switch mediaType {
-        case "public.image": self.photo = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        case "public.image": self.photo = info[UIImagePickerControllerOriginalImage] as? UIImage
         case "public.movie": break
         default: break
         }

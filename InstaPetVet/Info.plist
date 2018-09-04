@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>For capturing photo and video</string>
+	<string>For capturing photo of your pet.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>For recording short audio captions</string>
+	<string>For recording your pet's heartbeat</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>For saving and fetching media</string>
 	<key>UILaunchStoryboardName</key>

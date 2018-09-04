@@ -1,6 +1,6 @@
 //
 //  PhotoEditingViewController.swift
-//  Glitters
+//  InstaPetVet
 //
 //  Created by Alex Gnilov on 12/27/17.
 //  Copyright © 2017 GrossCo. All rights reserved.
@@ -49,11 +49,8 @@ class PhotoAnalysisViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        let centeringPoint = CGPoint(x: view.center.x, y: UIScreen.main.bounds.size.height / 2.5)
-        
-        analysisLabel.center = centeringPoint
-        shapeLayer.position = centeringPoint
-        trackLayer.position = centeringPoint
+        shapeLayer.position = analysisLabel.center
+        trackLayer.position = analysisLabel.center
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,7 +74,7 @@ class PhotoAnalysisViewController: UIViewController {
         }
         
         // Converting image to JPEG
-        guard image != nil, let imageData = image?.jpegData(compressionQuality: 0.8) else {
+        guard image != nil, let imageData = UIImageJPEGRepresentation(image!, 0.8) else {
             print("Error while converting Image to JPEG")
             return
         }
@@ -137,7 +134,7 @@ extension PhotoAnalysisViewController {
         trackLayer.path = circularPath.cgPath
         trackLayer.strokeColor = UIColor(red: 55/255, green: 100/255, blue: 155/255, alpha: 0.4).cgColor
         trackLayer.lineWidth = 23
-        trackLayer.lineCap = CAShapeLayerLineCap.round
+        trackLayer.lineCap = kCALineCapRound
         trackLayer.fillColor = UIColor.clear.cgColor
         trackLayer.opacity = 1
         
@@ -145,7 +142,7 @@ extension PhotoAnalysisViewController {
         shapeLayer.path = circularPath.cgPath
         shapeLayer.strokeColor = UIColor(red: 93/255, green: 164/255, blue: 255/255, alpha: 1).cgColor
         shapeLayer.lineWidth = 19
-        shapeLayer.lineCap = CAShapeLayerLineCap.round
+        shapeLayer.lineCap = kCALineCapRound
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.opacity = 1
         
@@ -168,7 +165,7 @@ extension PhotoAnalysisViewController {
             let scalingAnimation = CABasicAnimation(keyPath: "transform.scale")
             scalingAnimation.toValue = 1.15
             scalingAnimation.duration = 0.8
-            scalingAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+            scalingAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             scalingAnimation.autoreverses = true
             scalingAnimation.repeatCount = Float.infinity
             layer.add(scalingAnimation, forKey: "scaling")
@@ -176,7 +173,7 @@ extension PhotoAnalysisViewController {
             let lineWidthAnimation = CABasicAnimation(keyPath: "lineWidth")
             lineWidthAnimation.toValue = layer.lineWidth * 1.15
             lineWidthAnimation.duration = 0.8
-            lineWidthAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+            lineWidthAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             lineWidthAnimation.autoreverses = true
             lineWidthAnimation.repeatCount = Float.infinity
             layer.add(lineWidthAnimation, forKey: "lineWidth")

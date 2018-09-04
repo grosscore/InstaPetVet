@@ -1,12 +1,13 @@
 //
 //  AppDelegate.swift
-//  Glitters
+//  
 //
 //  Created by Alex Gnilov on 12/24/17.
 //  Copyright © 2017 GrossCo. All rights reserved.
 //
 
 import UIKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,10 +15,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        requestRecordPermission()
         
         return true
+    }
+    
+    private func requestRecordPermission() {
+        AVAudioSession.sharedInstance().requestRecordPermission () { allowed in
+            if allowed {
+                print("audio recording is allowed")
+            } else {
+                print("audio recording is not allowed")
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
