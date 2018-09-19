@@ -81,7 +81,7 @@ class PhotoAnalysisViewController: UIViewController {
         
         // Uploading
         
-        let endpoint = "https://www.instapetvet.com/appupload.php"
+        let endpoint = "insert your endpoint"
     
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imageData,
