@@ -131,7 +131,7 @@ class AudioRecordingController: UIViewController, AVAudioRecorderDelegate {
         analysisLabel.center = shapeLayer.position
 
         // Sending audio to server
-        let endpoint = "https://www.instapetvet.com/appupload.php"
+        let endpoint = "insert your endpoint"
 
         guard audioURL != nil else { print("audioURL is nil"); return }
         do {
